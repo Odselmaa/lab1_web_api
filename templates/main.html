@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+
+</head>
+<body>
+<div class="container">
+
+    <nav class="navbar navbar-default p_nav">
+        <div class="container-fluid">
+            <div class="pull-right row">
+                <img width="70px" class="center-block img-circle img-responsive" src="{{PHOTO_URL}}">
+                <label class="text-center center-block">{{ USERNAME }}</label>
+                <div class="text-center center-block" >
+                    <form action="/logout" method="post">
+                        <button class="btn btn-default btn" type="submit">Logout</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+</div>
+</body>
+</html>

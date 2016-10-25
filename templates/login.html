@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+    </script>
+
+    <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+
+
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="../static/css/bootstrap-social.css" rel="stylesheet">
+
+    <link href="../static/css/font-awesome.css" rel="stylesheet">
+
+    <link href="../static/css/index.css" rel="stylesheet">
+    <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+    <title>Login</title>
+
+</head>
+
+
+<body>
+
+
+<!-- GOOGLE PLUS SIGN IN-->
+<div class="container-fluid" style="width: 30%">
+
+    <form action="/signin" method = 'POST'>
+        <h3>Login</h3>
+        <div class="form-group">
+            <input type="text" class="form-control" id="inputEmail3" id = "username"
+                   name = "username" placeholder="Email or username">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="inputPassword3"
+                   id="password" name = "password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-labeled">
+                <span class="btn-label">
+                    <i class="glyphicon glyphicon-log-in"></i>
+                </span>
+                Sign in</button>
+        </div>
+        <hr class="style17">
+        <div id="signInButton">
+                  <span class="g-signin"
+                        data-scope="openid email profile"
+                        data-clientid="804429308863-qha7fdt3m3r9aapd86bc9p0ocb3d9ai6.apps.googleusercontent.com"
+                        data-redirecturi="postmessage"
+                        data-accesstype="offline"
+                        data-cookiepolicy="single_host_origin"
+                        data-callback="signInCallback"
+                        data-approvalprompt="force">
+                  </span>
+        </div>
+    </form>
+    <form action="/vkconnect">
+        <button class="btn btn-vk btn-social">
+            <span class="fa fa-vk"></span>
+            Sign in
+        </button>
+    </form>
+
+
+{#    <a href = '/test'>Login</a>#}
+</div>
+
+
+<div id="result"></div>
+</div>
+
+<script>
+    function signInCallback(authResult) {
+        if (authResult['code']) {
+            // Hide the sign-in button now that the user is authorized
+            $('#signinButton').attr('style', 'display: none');
+            // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+            $.ajax({
+                type: 'POST',
+                url: '/gconnect?state={{STATE}}',
+                processData: false,
+                data: authResult['code'],
+                contentType: 'application/octet-stream; charset=utf-8',
+                success: function (result) {
+                    // Handle or verify the server response if necessary.
+                    if (result) {
+                        //$('#result').html('Login Successful!</br>' + result + '</br>Redirecting...')
+
+                        window.location.href = "/index";
+
+
+                    } else if (authResult['error']) {
+                        console.log('There was an error: ' + authResult['error']);
+                    } else {
+                        $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                    }
+                }
+
+            });
+        }
+    }
+</script>
+
+
+<!--END GOOGLE PLUS SIGN IN -->
+<script src="../static/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
